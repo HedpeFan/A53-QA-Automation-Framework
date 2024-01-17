@@ -5,10 +5,11 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-@Test
+
 public class Homework21 extends BaseTest {
 
     String newPlaylistName = "Edited Playlist";
+    @Test
 
     public void renamePlaylist()throws InterruptedException {
         String updatePlaylistMsg = "Updated playlist \"Edited Playlist.\"";
@@ -24,7 +25,7 @@ public class Homework21 extends BaseTest {
     }
 
 public void doubleClickPlaylist(){
-    WebElement playlistElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".playlist:nth-child(4)")));
+    WebElement playlistElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".playlist:nth-child(3)")));
     actions.doubleClick(playlistElement).perform();
 
 }
