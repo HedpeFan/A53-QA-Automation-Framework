@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 public class Homework24 extends BaseTest {
 
     @Test
-    public void loginWithCorrectCredentials2(){
+    public void loginWithCorrectCredentialsnew(){
 
         LoginPage loginPage = new LoginPage(driver);
         HomePage homePage = new HomePage(driver);
