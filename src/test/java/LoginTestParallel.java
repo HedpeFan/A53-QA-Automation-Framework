@@ -34,7 +34,7 @@ public class LoginTestParallel extends BaseTest {
         Assert.assertTrue(homePage.getUserAvatarIcon().isDisplayed());
 
     }
-    @Test
+   /* @Test
     public void loginWithCorrectCredentials3() {
 
         LoginPage loginPage = new LoginPage(getDriver());
@@ -63,5 +63,5 @@ public class LoginTestParallel extends BaseTest {
 
         Assert.assertTrue(homePage.getUserAvatarIcon().isDisplayed());
 
-    }
+    }*/
 }

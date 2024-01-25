@@ -16,35 +16,39 @@ import org.testng.annotations.*;
 
 import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URL;
 import java.time.Duration;
+import java.util.HashMap;
 import java.util.UUID;
 
 public class BaseTest {
-    @DataProvider(name="InvalidLoginData")
+    @DataProvider(name = "InvalidLoginData")
 
-    public Object [][] getDataFromDataProviders(){
-    return new Object[][]{
-            {"invalid@mail.com", "invalidPassword"},
-            {"azahn007@gmail.com", ""},
-            {"","Koelpass"},
-            {"",""}
-    };
+    public Object[][] getDataFromDataProviders() {
+        return new Object[][]{
+                {"invalid@mail.com", "invalidPassword"},
+                {"azahn007@gmail.com", ""},
+                {"", "Koelpass"},
+                {"", ""}
+        };
 
     }
+
     public WebDriver driver;
     private static final ThreadLocal<WebDriver> threadDriver = new ThreadLocal<>();
 
-    public WebDriverWait wait ;
+    public WebDriverWait wait;
 
 
     public String url = "https://qa.koel.app/";
-    public Actions actions= null;
+    public Actions actions = null;
 
     @BeforeSuite
-      void setupClass() {
-       WebDriverManager.chromedriver().setup();
-       // WebDriverManager.firefoxdriver().setup();
+    void setupClass() {
+        WebDriverManager.chromedriver().setup();
+        // WebDriverManager.firefoxdriver().setup();
     }
+
     @Parameters({"BaseUrl"})
     @BeforeMethod
     public void launchBrowser(String BaseUrl) throws MalformedURLException {
@@ -53,20 +57,20 @@ public class BaseTest {
 
         driver = new ChromeDriver(options);
         driver = new FirefoxDriver();*/
-       // driver = pickBrowser(System.getProperty("browser"));
-       threadDriver.set( pickBrowser(System.getProperty("browser")));
+        // driver = pickBrowser(System.getProperty("browser"));
+        threadDriver.set(pickBrowser(System.getProperty("browser")));
 
 
         //driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        wait= new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+        wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
         actions = new Actions(getDriver());
-       // driver.manage().window().maximize();
-       // String url = BaseUrl;
+        // driver.manage().window().maximize();
+        // String url = BaseUrl;
         navigateToPage(BaseUrl);
 
     }
 
-    public static WebDriver getDriver(){
+    public static WebDriver getDriver() {
         return threadDriver.get();
     }
 
@@ -76,17 +80,17 @@ public class BaseTest {
     }
 
 
-      //  @AfterMethod
-     // public void closeBrowser() {
-     //   driver.quit();
-     // }
+    //  @AfterMethod
+    // public void closeBrowser() {
+    //   driver.quit();
+    // }
 
     public void navigateToPage(String givenUrl) {
         getDriver().get(givenUrl);
     }
 
     public void provideEmail(String email) {
-       // WebElement emailField = driver.findElement(By.cssSelector("input[type='email']"));
+        // WebElement emailField = driver.findElement(By.cssSelector("input[type='email']"));
         WebElement emailField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[type='email']")));
         emailField.clear();
         emailField.sendKeys(email);
@@ -94,8 +98,8 @@ public class BaseTest {
     }
 
     public void providePassword(String password) {
-       // WebElement passwordField = driver.findElement(By.cssSelector("input[type='password']"));
-        WebElement passwordField =wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[type='password']")));
+        // WebElement passwordField = driver.findElement(By.cssSelector("input[type='password']"));
+        WebElement passwordField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[type='password']")));
         passwordField.clear();
         passwordField.sendKeys(password);
     }
@@ -105,6 +109,7 @@ public class BaseTest {
         WebElement submit = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button[type='submit']")));
         submit.click();
     }
+
     public void clickSaveButton() {
         WebElement saveButton = driver.findElement(By.cssSelector("button.btn-submit"));
         saveButton.click();
@@ -117,7 +122,7 @@ public class BaseTest {
     }
 
     public void provideCurrentPassword(String password) {
-       // WebElement currentPassword = driver.findElement(By.cssSelector("[name='current_password'"));
+        // WebElement currentPassword = driver.findElement(By.cssSelector("[name='current_password'"));
         WebElement currentPassword = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[name='current_password'")));
         currentPassword.clear();
         currentPassword.sendKeys(password);
@@ -129,18 +134,18 @@ public class BaseTest {
     }
 
     public void clickAvatarIcon() {
-       // WebElement avatarIcon = driver.findElement(By.cssSelector("img.avatar"));
+        // WebElement avatarIcon = driver.findElement(By.cssSelector("img.avatar"));
         WebElement avatarIcon = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("img.avatar")));
         avatarIcon.click();
     }
 
-    public void loginToKoelApp(){
+    public void loginToKoelApp() {
         provideEmail("azahn007@gmail.com");
         providePassword("Koelpass");
         clickSubmit();
     }
 
-    public WebDriver pickBrowser(String browser)  throws MalformedURLException {
+    public WebDriver pickBrowser(String browser) throws MalformedURLException {
         String gridURL = "http://10.0.0.206:4444/";
         DesiredCapabilities caps = new DesiredCapabilities();
         switch (browser) {
@@ -155,16 +160,19 @@ public class BaseTest {
                 return driver = new EdgeDriver();
 
             case "grid-edge": // gradle clean test -Dbrowser=grid-edge
-            caps.setCapability("browserName","MicrosoftEdge");
-            return driver = new RemoteWebDriver(URI.create(gridURL).toURL(),caps);
+                caps.setCapability("browserName", "MicrosoftEdge");
+                return driver = new RemoteWebDriver(URI.create(gridURL).toURL(), caps);
 
             case "grid-firefox": // gradle clean test -Dbrowser=grid-firefox
-                caps.setCapability("browserName","firefox");
-                return driver = new RemoteWebDriver(URI.create(gridURL).toURL(),caps);
+                caps.setCapability("browserName", "firefox");
+                return driver = new RemoteWebDriver(URI.create(gridURL).toURL(), caps);
 
-            case "grid-chrome": // gradle clean test -Dbrowser=grid-chrome
-                caps.setCapability("browserName","chrome");
-                return driver = new RemoteWebDriver(URI.create(gridURL).toURL(),caps);
+                case "grid-chrome": // gradle clean test -Dbrowser=grid-chrome
+                caps.setCapability("browserName", "chrome");
+                return driver = new RemoteWebDriver(URI.create(gridURL).toURL(), caps);
+
+            case "cloud":
+                return lambdaTest();
 
 
             default:
@@ -173,6 +181,43 @@ public class BaseTest {
                 chromeOptions.addArguments("--remote-allow-origins=*");
                 return driver = new ChromeDriver(chromeOptions);
         }
+
+
     }
+
+    public WebDriver lambdaTest() throws MalformedURLException {
+        String hubURL = "https://hub.lambdatest.com/wd/hub";
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+
+       // ChromeOptions browserOptions = new ChromeOptions();
+       // browserOptions.setPlatformName("Windows 11");
+       // browserOptions.setBrowserVersion("120.0");
+
+        capabilities.setCapability("browserName", "chrome");
+        capabilities.setCapability("browserVersion", "120.0");
+
+        HashMap<String, Object> ltOptions = new HashMap<String, Object>();
+        ltOptions.put("username", "azahn007");
+        ltOptions.put("accessKey", "NVEZh8zJUJeWqbpi2i7XeASp7ef45vMbIhMtcUByhU0JsGYiv7");
+        ltOptions.put("geoLocation", "US");
+        ltOptions.put("visual", true);
+        ltOptions.put("video", true);
+        ltOptions.put("resolution", "2560x1440");
+        ltOptions.put("timezone", "Detroit");
+        ltOptions.put("build", "Homework25");
+        ltOptions.put("project", "Untitled");
+        ltOptions.put("name", "DemoTest");
+        ltOptions.put("selenium_version", "4.5.0");
+        ltOptions.put("driver_version", "120.0");
+        ltOptions.put("w3c", true);
+        ltOptions.put("plugin", "java-testNG");
+      //  browserOptions.setCapability("LT:Options", ltOptions);
+        capabilities.setCapability("LT:Options", ltOptions);
+
+        return new RemoteWebDriver(new URL(hubURL),capabilities);
+    }
+
+
+
 
 }
