@@ -34,7 +34,7 @@ public class LoginSteps {
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
     @After
-    public void closeBrowser(){
+    public void closeBrowser() {
         driver.quit();
     }
 
