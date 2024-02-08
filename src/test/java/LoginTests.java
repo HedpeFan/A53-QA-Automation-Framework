@@ -18,14 +18,14 @@ import java.time.Duration;
 
 public class LoginTests extends BaseTest {
 
-   /* @Parameters({"BaseUrl"})
+    @Parameters({"BaseUrl"})
     @Test
     public void navigateToKoelApp(String BaseUrl){
         navigateToPage(BaseUrl);
         Assert.assertEquals(driver.getCurrentUrl(), BaseUrl);
         driver.quit();
 
-    }*/
+    }
 
     @Test
     public void loginValidEmailPassword() throws InterruptedException {
